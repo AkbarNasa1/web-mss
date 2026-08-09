@@ -95,7 +95,15 @@ const { title } = Astro.props;
         
       });
 
-      navbar.addEventListener("click", () => {
+      navbar.addEventListener("click", (e) => {
+        const target = e.target as HTMLElement;
+
+        // Abaikan klik pada tombol dropdown, biar Navitem.astro yang menangani
+        if (target.closest("[data-dropdown-toggle]")) return;
+
+        // Tutup nav hanya kalau yang diklik benar-benar link navigasi
+        if (!target.closest("a[href]")) return;
+
         toggleMenu.setAttribute("data-open-nav", "false");
         overlayNav.setAttribute("data-is-visible", "false");
         document.body.classList.remove("!overflow-y-hidden");

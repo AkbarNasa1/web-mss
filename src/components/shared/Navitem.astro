@@ -14,15 +14,19 @@ const { href, text, dropdown } = Astro.props;
 ---
 
 {dropdown ? (
-<li class="relative group">
+<li class="relative lg:group">
     <button
-        class="flex items-center gap-1 py-3 font-medium hover:text-primary transition-colors"
+        type="button"
+        data-dropdown-toggle
+        aria-expanded="false"
+        class="w-full flex items-center justify-between gap-1 py-3 font-medium hover:text-primary transition-colors"
     >
         {text}
 
         <svg
+            data-dropdown-icon
             xmlns="http://www.w3.org/2000/svg"
-            class="w-4 h-4 transition-transform duration-300 group-hover:rotate-180"
+            class="w-4 h-4 transition-transform duration-300 lg:group-hover:rotate-180"
             viewBox="0 0 20 20"
             fill="currentColor"
         >
@@ -35,18 +39,20 @@ const { href, text, dropdown } = Astro.props;
     </button>
 
     <div
-        class="absolute left-0 top-full pt-3
-               opacity-0 invisible translate-y-2
-               group-hover:opacity-100
-               group-hover:visible
-               group-hover:translate-y-0
+        data-dropdown-panel
+        class="hidden lg:block
+               lg:absolute lg:left-0 lg:top-full lg:pt-3
+               lg:opacity-0 lg:invisible lg:translate-y-2
+               lg:group-hover:opacity-100
+               lg:group-hover:visible
+               lg:group-hover:translate-y-0
                transition-all duration-300 z-50"
     >
-        <div class="w-56 rounded-xl bg-white shadow-xl border border-gray-100 py-2">
+        <div class="w-full pl-4 lg:pl-0 lg:w-56 rounded-xl lg:bg-white lg:shadow-xl lg:border lg:border-gray-100 py-2">
             {dropdown.map((item) => (
                 <a
                     href={item.href}
-                    class="block px-4 py-2 text-sm font-medium text-gray-800 hover:text-primary hover:bg-gray-50 transition-colors"
+                    class="block px-4 py-2 text-sm font-medium text-gray-800 hover:text-primary lg:hover:bg-gray-50 transition-colors"
                 >
                     {item.text}
                 </a>
@@ -64,3 +70,30 @@ const { href, text, dropdown } = Astro.props;
     </a>
 </li>
 )}
+
+<script>
+  document.querySelectorAll("[data-dropdown-toggle]").forEach((btn) => {
+    const button = btn as HTMLButtonElement;
+    const panel = button.nextElementSibling as HTMLElement;
+    const icon = button.querySelector("[data-dropdown-icon]") as SVGElement;
+
+    button.addEventListener("click", (e) => {
+      if (window.innerWidth >= 1024) return;
+
+      e.preventDefault();
+      e.stopPropagation();
+
+      const isOpen = button.getAttribute("aria-expanded") === "true";
+      button.setAttribute("aria-expanded", String(!isOpen));
+      panel.classList.toggle("hidden", isOpen);
+      icon?.classList.toggle("rotate-180", !isOpen);
+
+      const navbar = document.querySelector("[data-navbar]") as HTMLElement;
+      if (navbar) {
+        requestAnimationFrame(() => {
+          navbar.style.height = `${navbar.scrollHeight}px`;
+        });
+      }
+    });
+  });
+</script>
