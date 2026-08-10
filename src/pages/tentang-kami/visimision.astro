@@ -1,0 +1,119 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Container from "../../components/shared/Container.astro";
+import Title from "../../components/shared/Title.astro";
+import Paragraph from "../../components/shared/Paragraph.astro";
+import Info from "../../components/cards/Info.astro";
+
+const values = [
+    {
+        title: "Integritas",
+        description: "Menjunjung tinggi kejujuran dan tanggung jawab dalam setiap layanan yang kami berikan"
+    },
+    {
+        title: "Profesionalisme",
+        description: "Bekerja dengan standar terbaik dan dedikasi tinggi di setiap bidang usaha kami"
+    },
+    {
+        title: "Inovasi",
+        description: "Terus beradaptasi dan berkembang mengikuti kebutuhan pasar yang dinamis"
+    },
+    {
+        title: "Kepuasan Pelanggan",
+        description: "Mengutamakan kepercayaan dan kepuasan pelanggan sebagai prioritas utama"
+    },
+];
+---
+
+<Layout title="| Visi & Misi">
+    <main class="pt-32 pb-20">
+        <!-- Hero -->
+        <section id="visi-misi-hero">
+            <Container>
+                <div class="max-w-3xl mx-auto text-center">
+                    <span class="inline-block text-sm font-semibold text-primary tracking-wide uppercase mb-4">
+                        Tentang Kami
+                    </span>
+                    <Title>
+                        Visi & Misi Perusahaan
+                    </Title>
+                    <Paragraph className="mt-6">
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sapiente delectus architecto ullam earum, arah dan tujuan yang menjadi landasan setiap langkah kami dalam melayani pelanggan.
+                    </Paragraph>
+                </div>
+            </Container>
+        </section>
+
+        <!-- Visi & Misi Cards -->
+        <section id="visi-misi-content" class="mt-16">
+            <Container>
+                <div class="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+                    <div class="bg-box-bg border border-box-border rounded-2xl p-8">
+                        <div class="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-5">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-primary">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                            </svg>
+                        </div>
+                        <h2 class="text-2xl font-bold text-heading-1">Visi</h2>
+                        <p class="mt-4 text-heading-3 leading-relaxed">
+                            Menjadi grup usaha terdepan dan terpercaya yang memberikan solusi terintegrasi bagi kebutuhan bisnis dan masyarakat di berbagai bidang layanan.
+                        </p>
+                    </div>
+
+                    <div class="bg-box-bg border border-box-border rounded-2xl p-8">
+                        <div class="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-5">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-primary">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z" />
+                            </svg>
+                        </div>
+                        <h2 class="text-2xl font-bold text-heading-1">Misi</h2>
+                        <ul class="mt-4 space-y-3 text-heading-3 leading-relaxed">
+                            <li class="flex gap-3">
+                                <span class="text-primary font-bold">01.</span>
+                                Memberikan layanan yang profesional, terpercaya, dan berkualitas di setiap lini usaha
+                            </li>
+                            <li class="flex gap-3">
+                                <span class="text-primary font-bold">02.</span>
+                                Mengembangkan sumber daya manusia yang kompeten dan berintegritas
+                            </li>
+                            <li class="flex gap-3">
+                                <span class="text-primary font-bold">03.</span>
+                                Berinovasi secara berkelanjutan untuk menjawab kebutuhan pelanggan
+                            </li>
+                            <li class="flex gap-3">
+                                <span class="text-primary font-bold">04.</span>
+                                Membangun kemitraan jangka panjang yang saling menguntungkan
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </Container>
+        </section>
+
+        <!-- Nilai Perusahaan -->
+        <section id="nilai-perusahaan" class="mt-24">
+            <Container>
+                <div class="max-w-2xl mx-auto text-center mb-12">
+                    <Title>
+                        Nilai yang Kami Junjung
+                    </Title>
+                    <Paragraph className="mt-4">
+                        Empat nilai inti yang menjadi pedoman kami dalam menjalankan setiap bidang usaha.
+                    </Paragraph>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-5xl mx-auto">
+                    {values.map((item) => (
+                        <div class="bg-box-bg border border-box-border rounded-2xl p-6 text-center">
+                            <h3 class="font-bold text-heading-1 text-lg">{item.title}</h3>
+                            <p class="mt-2 text-sm text-heading-3 leading-relaxed">
+                                {item.description}
+                            </p>
+                        </div>
+                    ))}
+                </div>
+            </Container>
+        </section>
+    </main>
+</Layout>

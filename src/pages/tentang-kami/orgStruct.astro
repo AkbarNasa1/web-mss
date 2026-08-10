@@ -1,16 +1,135 @@
 ---
-import "../../styles/global.css";
 import Layout from "../../layouts/Layout.astro";
+import Container from "../../components/shared/Container.astro";
+import Title from "../../components/shared/Title.astro";
+import Paragraph from "../../components/shared/Paragraph.astro";
+
+const divisions = [
+    {
+        title: "Komisaris Utama",
+        name: "Soni Tri Senjaya",
+        level: "top"
+    },
+    {
+        title: "Direktur Utama",
+        name: "Putri Karina Anggraeni",
+        level: "top"
+    },
+    {
+        title: "Sekretaris ",
+        name: "Sulthan Yanuar A",
+        level: "mid"
+    },
+    {
+        title: "Direktur Operasional",
+        name: "Yogi Budiman",
+        level: "mid"
+    },
+    {
+        title: "Direktur Keuangan",
+        name: "Akbar Nasa",
+        level: "mid"
+    },
+    {
+        title: "Manajer Operasional",
+        name: "Rifqi Hendrawan",
+        level: "mid"
+    },
+    {
+        title: "Manajer Pemasaran",
+        name: "Aulia Tauhid A",
+        level: "mid"
+    },
+    {
+        title: "Human Resource Department",
+        name: "Ramadansyah",
+        level: "mid"
+    },
+];
+
+const staffDivisions = [
+    "Staff Percetakan & Penerbitan",
+    "Staff Alat Tulis & Gambar",
+    "Staff Pakaian",
+    "Staff Kreatif Iklan",
+    "Staff Agen Perjalanan",
+    "Staff Kebersihan Bangunan",
+    "Staff Real Estat",
+];
 ---
 
 <Layout title="| Struktur Organisasi">
     <main class="pt-32 pb-20">
-        <section>
-            <!-- konten halaman sejarah di sini -->
-            <h1 class="text-3xl font-bold text-heading-1">Struktur Organisasi</h1>
-            <p class="mt-4 text-heading-3">
-                Bagan dan rincian struktur organisasi
-            </p>
+        <!-- Hero -->
+        <section id="struktur-hero">
+            <Container>
+                <div class="max-w-3xl mx-auto text-center">
+                    <span class="inline-block text-sm font-semibold text-primary tracking-wide uppercase mb-4">
+                        Tentang Kami
+                    </span>
+                    <Title>
+                        Struktur Organisasi
+                    </Title>
+                    <Paragraph className="mt-6">
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sapiente delectus architecto ullam earum, susunan tim yang solid untuk mendukung setiap lini usaha kami.
+                    </Paragraph>
+                </div>
+            </Container>
+        </section>
+
+        <!-- Bagan -->
+        <section id="struktur-bagan" class="mt-20">
+            <Container>
+                <div class="max-w-5xl mx-auto flex flex-col items-center gap-8">
+
+                    <!-- Direktur -->
+                    <div class="bg-primary text-white rounded-2xl px-8 py-5 text-center shadow-lg min-w-[240px]">
+                        <p class="font-bold">{divisions[0].title}</p>
+                        <p class="text-sm opacity-80 mt-1">{divisions[0].name}</p>
+                    </div>
+
+                    <!-- garis penghubung -->
+                    <div class="w-px h-8 bg-box-border"></div>
+
+                    <!-- Manajer -->
+                    <div class="w-full">
+                        <div class="hidden md:block h-px bg-box-border mx-auto max-w-4xl"></div>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-8">
+                            {divisions.slice(1).map((item) => (
+                                <div class="relative">
+                                    <div class="hidden md:block absolute -top-8 left-1/2 w-px h-8 bg-box-border -translate-x-1/2"></div>
+                                    <div class="bg-box-bg border border-box-border rounded-2xl px-6 py-5 text-center h-full">
+                                        <p class="font-bold text-heading-1">{item.title}</p>
+                                        <p class="text-sm text-heading-3 mt-1">{item.name}</p>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </div>
+            </Container>
+        </section>
+
+        <!-- Divisi / Staff -->
+        <section id="struktur-staff" class="mt-24">
+            <Container>
+                <div class="max-w-2xl mx-auto text-center mb-10">
+                    <Title>
+                        Divisi Pendukung
+                    </Title>
+                    <Paragraph className="mt-4">
+                        Setiap manajer didukung oleh tim yang berdedikasi di divisinya masing-masing.
+                    </Paragraph>
+                </div>
+
+                <div class="flex flex-wrap justify-center gap-3 max-w-4xl mx-auto">
+                    {staffDivisions.map((item) => (
+                        <span class="bg-box-bg border border-box-border rounded-full px-5 py-2 text-sm font-medium text-heading-2">
+                            {item}
+                        </span>
+                    ))}
+                </div>
+            </Container>
         </section>
     </main>
 </Layout>
