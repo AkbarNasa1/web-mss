@@ -1,16 +1,102 @@
 ---
 import "../../styles/global.css";
 import Layout from "../../layouts/Layout.astro";
+import Container from "../../components/shared/Container.astro";
+import Title from "../../components/shared/Title.astro";
+import Paragraph from "../../components/shared/Paragraph.astro";
+
+const milestones = [
+    {
+        year: "2015",
+        title: "Awal Mula Berdiri",
+        description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Perusahaan didirikan dengan modal kecil dan tekad besar, memulai usaha dari sebuah toko sederhana yang melayani kebutuhan alat tulis dan percetakan di lingkungan sekitar."
+    },
+    {
+        year: "2018",
+        title: "Perluasan Lini Usaha",
+        description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Melihat peluang pasar yang terus berkembang, perusahaan mulai merambah ke bidang perdagangan pakaian dan jasa periklanan, memperluas jangkauan pelanggan ke berbagai segmen."
+    },
+    {
+        year: "2021",
+        title: "Diversifikasi Layanan",
+        description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Unit usaha baru dibentuk untuk menjawab kebutuhan pasar yang lebih luas, mencakup jasa agen perjalanan wisata dan layanan kebersihan gedung profesional."
+    },
+    {
+        year: "2024",
+        title: "Menjadi Grup Usaha Terpadu",
+        description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Kini perusahaan telah berkembang menjadi grup usaha yang menaungi tujuh bidang layanan berbeda, termasuk real estat, dengan komitmen yang sama sejak awal berdiri: melayani sepenuh hati."
+    },
+];
 ---
 
 <Layout title="| Sejarah">
     <main class="pt-32 pb-20">
-        <section>
-            <!-- konten halaman sejarah di sini -->
-            <h1 class="text-3xl font-bold text-heading-1">Sejarah Kami</h1>
-            <p class="mt-4 text-heading-3">
-                Isi cerita sejarah perusahaan Anda...
-            </p>
+        <!-- Hero -->
+        <section id="sejarah-hero">
+            <Container>
+                <div class="max-w-3xl mx-auto text-center">
+                    <span class="inline-block text-sm font-semibold text-primary tracking-wide uppercase mb-4">
+                        Tentang Kami
+                    </span>
+                    <Title>
+                        Perjalanan Kami Membangun Kepercayaan
+                    </Title>
+                    <Paragraph className="mt-6">
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sapiente delectus architecto ullam earum, dari usaha kecil hingga menjadi grup usaha yang dipercaya oleh banyak pelanggan di berbagai bidang.
+                    </Paragraph>
+                </div>
+            </Container>
+        </section>
+
+        <!-- Timeline -->
+        <section id="sejarah-timeline" class="mt-20">
+            <Container>
+                <div class="max-w-3xl mx-auto relative">
+                    <!-- garis vertikal -->
+                    <div class="absolute left-4 md:left-1/2 top-0 bottom-0 w-px bg-box-border md:-translate-x-1/2"></div>
+
+                    <div class="space-y-12">
+                        {milestones.map((item, index) => (
+                            <div class:list={[
+                                "relative flex flex-col md:flex-row items-start md:items-center gap-6",
+                                index % 2 === 1 ? "md:flex-row-reverse" : ""
+                            ]}>
+                                <!-- titik penanda -->
+                                <div class="absolute left-4 md:left-1/2 w-3 h-3 rounded-full bg-primary md:-translate-x-1/2 ring-4 ring-body"></div>
+
+                                <div class="pl-12 md:pl-0 md:w-1/2">
+                                    <div class:list={[
+                                        "bg-box-bg border border-box-border rounded-2xl p-6 shadow-sm",
+                                        index % 2 === 1 ? "md:ml-8" : "md:mr-8"
+                                    ]}>
+                                        <span class="text-sm font-bold text-primary">{item.year}</span>
+                                        <h3 class="mt-1 text-xl font-bold text-heading-1">{item.title}</h3>
+                                        <p class="mt-2 text-sm text-heading-3 leading-relaxed">
+                                            {item.description}
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <div class="hidden md:block md:w-1/2"></div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            </Container>
+        </section>
+
+        <!-- Penutup -->
+        <section id="sejarah-closing" class="mt-24">
+            <Container>
+                <div class="max-w-2xl mx-auto text-center bg-box-bg border border-box-border rounded-2xl p-10">
+                    <h2 class="text-2xl font-bold text-heading-1">
+                        Terus Bertumbuh, Terus Melayani
+                    </h2>
+                    <Paragraph className="mt-4">
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sapiente delectus architecto ullam earum, komitmen kami tidak berubah sejak hari pertama: menjadi mitra yang dapat diandalkan bagi setiap pelanggan.
+                    </Paragraph>
+                </div>
+            </Container>
         </section>
     </main>
 </Layout>
