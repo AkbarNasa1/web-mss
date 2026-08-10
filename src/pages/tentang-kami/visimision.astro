@@ -6,39 +6,29 @@ import Title from "../../components/shared/Title.astro";
 import Paragraph from "../../components/shared/Paragraph.astro";
 
 const values = [
-    {
-        title: "Integritas",
-        description: "Menjunjung tinggi kejujuran dan tanggung jawab dalam setiap layanan yang kami berikan"
-    },
-    {
-        title: "Profesionalisme",
-        description: "Bekerja dengan standar terbaik dan dedikasi tinggi di setiap bidang usaha kami"
-    },
-    {
-        title: "Inovasi",
-        description: "Terus beradaptasi dan berkembang mengikuti kebutuhan pasar yang dinamis"
-    },
-    {
-        title: "Kepuasan Pelanggan",
-        description: "Mengutamakan kepercayaan dan kepuasan pelanggan sebagai prioritas utama"
-    },
+    { title: "Integritas", description: "Menjunjung tinggi kejujuran dan tanggung jawab dalam setiap layanan yang kami berikan" },
+    { title: "Profesionalisme", description: "Bekerja dengan standar terbaik dan dedikasi tinggi di setiap bidang usaha kami" },
+    { title: "Inovasi", description: "Terus beradaptasi dan berkembang mengikuti kebutuhan pasar yang dinamis" },
+    { title: "Kepuasan Pelanggan", description: "Mengutamakan kepercayaan dan kepuasan pelanggan sebagai prioritas utama" },
 ];
 ---
 
 <Layout title="| Visi & Misi">
-    <main class="pt-32 pb-20">
+    <main class="relative pt-32 pb-20 overflow-hidden">
+
+        <!-- Blob dekoratif tersebar sepanjang halaman -->
+        <div class="absolute top-0 -left-20 w-72 h-72 bg-gradient-to-br from-blue-500 to-primary rounded-full blur-3xl opacity-30 pointer-events-none"></div>
+        <div class="absolute top-10 -right-20 w-80 h-80 bg-gradient-to-br from-green-400 to-teal-500 rounded-full blur-3xl opacity-25 pointer-events-none"></div>
+        <div class="absolute top-[750px] -left-24 w-72 h-72 bg-gradient-to-br from-green-400 to-primary rounded-full blur-3xl opacity-20 pointer-events-none"></div>
+        <div class="absolute top-[1250px] -right-16 w-64 h-64 bg-gradient-to-br from-blue-400 to-teal-400 rounded-full blur-3xl opacity-20 pointer-events-none"></div>
+        <div class="absolute bottom-0 left-1/3 w-72 h-72 bg-gradient-to-br from-primary to-green-400 rounded-full blur-3xl opacity-20 pointer-events-none"></div>
+
         <!-- Hero -->
-        <section id="visi-misi-hero" class="relative overflow-hidden">
-            <div class="absolute -top-16 -left-16 w-40 h-40 bg-gradient-to-br from-blue-400 to-primary rounded-full blur-3xl opacity-40 pointer-events-none"></div>
-            <div class="absolute top-10 -right-10 w-48 h-48 bg-gradient-to-br from-green-400 to-primary rounded-full blur-3xl opacity-30 pointer-events-none"></div>
+        <section id="visi-misi-hero" class="relative">
             <Container>
                 <div class="max-w-3xl mx-auto text-center relative">
-                    <span class="inline-block text-sm font-semibold text-primary tracking-wide uppercase mb-4">
-                        Tentang Kami
-                    </span>
-                    <Title>
-                        Visi & Misi Perusahaan
-                    </Title>
+                    <span class="inline-block text-sm font-semibold text-primary tracking-wide uppercase mb-4">Tentang Kami</span>
+                    <Title>Visi & Misi Perusahaan</Title>
                     <Paragraph className="mt-6">
                         Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sapiente delectus architecto ullam earum, arah dan tujuan yang menjadi landasan setiap langkah kami dalam melayani pelanggan.
                     </Paragraph>
@@ -47,7 +37,7 @@ const values = [
         </section>
 
         <!-- Visi & Misi Cards -->
-        <section id="visi-misi-content" class="mt-16">
+        <section id="visi-misi-content" class="relative mt-16">
             <Container>
                 <div class="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
                     <div class="bg-box-bg border border-box-border rounded-2xl p-8">
@@ -71,22 +61,10 @@ const values = [
                         </div>
                         <h2 class="text-2xl font-bold text-heading-1">Misi</h2>
                         <ul class="mt-4 space-y-3 text-heading-3 leading-relaxed">
-                            <li class="flex gap-3">
-                                <span class="text-primary font-bold">01.</span>
-                                Memberikan layanan yang profesional, terpercaya, dan berkualitas di setiap lini usaha
-                            </li>
-                            <li class="flex gap-3">
-                                <span class="text-primary font-bold">02.</span>
-                                Mengembangkan sumber daya manusia yang kompeten dan berintegritas
-                            </li>
-                            <li class="flex gap-3">
-                                <span class="text-primary font-bold">03.</span>
-                                Berinovasi secara berkelanjutan untuk menjawab kebutuhan pelanggan
-                            </li>
-                            <li class="flex gap-3">
-                                <span class="text-primary font-bold">04.</span>
-                                Membangun kemitraan jangka panjang yang saling menguntungkan
-                            </li>
+                            <li class="flex gap-3"><span class="text-primary font-bold">01.</span>Memberikan layanan yang profesional, terpercaya, dan berkualitas di setiap lini usaha</li>
+                            <li class="flex gap-3"><span class="text-primary font-bold">02.</span>Mengembangkan sumber daya manusia yang kompeten dan berintegritas</li>
+                            <li class="flex gap-3"><span class="text-primary font-bold">03.</span>Berinovasi secara berkelanjutan untuk menjawab kebutuhan pelanggan</li>
+                            <li class="flex gap-3"><span class="text-primary font-bold">04.</span>Membangun kemitraan jangka panjang yang saling menguntungkan</li>
                         </ul>
                     </div>
                 </div>
@@ -94,24 +72,17 @@ const values = [
         </section>
 
         <!-- Nilai Perusahaan -->
-        <section id="nilai-perusahaan" class="mt-24">
+        <section id="nilai-perusahaan" class="relative mt-24">
             <Container>
                 <div class="max-w-2xl mx-auto text-center mb-12">
-                    <Title>
-                        Nilai yang Kami Junjung
-                    </Title>
-                    <Paragraph className="mt-4">
-                        Empat nilai inti yang menjadi pedoman kami dalam menjalankan setiap bidang usaha.
-                    </Paragraph>
+                    <Title>Nilai yang Kami Junjung</Title>
+                    <Paragraph className="mt-4">Empat nilai inti yang menjadi pedoman kami dalam menjalankan setiap bidang usaha.</Paragraph>
                 </div>
-
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-5xl mx-auto">
                     {values.map((item) => (
                         <div class="bg-box-bg border border-box-border rounded-2xl p-6 text-center">
                             <h3 class="font-bold text-heading-1 text-lg">{item.title}</h3>
-                            <p class="mt-2 text-sm text-heading-3 leading-relaxed">
-                                {item.description}
-                            </p>
+                            <p class="mt-2 text-sm text-heading-3 leading-relaxed">{item.description}</p>
                         </div>
                     ))}
                 </div>
