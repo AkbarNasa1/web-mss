@@ -11,170 +11,96 @@ const { title } = Astro.props;
 ---
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/png" href="/logos/logoCV.png" />
     <meta name="generator" content={Astro.generator} />
-    <meta name="description" content="MITRA SUPPLY SPACE" />
-    <title>CV MITRA SUPPLY SPACE {title}</title>
+    <meta name="description" content="CV MITRA SUPPLY SPACE" />
+    <title>CV MITRA SUPPLY SPACE {title ? `- ${title}` : ''}</title>
 
     <link
       href="https://fonts.googleapis.com/css2?family=Raleway:wght@300;400;500;600;700&display=swap"
       rel="stylesheet"
     />
+
+    <!-- SCRIPT TEMA DIRECT DI HEAD (Mencegah kedipan & mengaktifkan class .dark langsung) -->
+    <script is:inline>
+      (function() {
+        const savedTheme = localStorage.getItem("appTheme");
+        if (
+          savedTheme === "dark" ||
+          (!savedTheme && window.matchMedia("(prefers-color-scheme: dark)").matches)
+        ) {
+          document.documentElement.classList.add("dark");
+        } else {
+          document.documentElement.classList.remove("dark");
+        }
+      })();
+    </script>
   </head>
 
-  <body class="overflow-hidden overflow-y-auto bg-body">
+  <body class="bg-body min-h-screen flex flex-col justify-between overflow-x-hidden">
     <Navbar />
-    <slot />
+    <main class="flex-1">
+      <slot />
+    </main>
     <Footer />
-  </body>
 
-  <script>
-    const switchTheme = document.querySelector(
-      "[data-switch-theme]"
-    ) as HTMLButtonElement | null;
+    <!-- SCRIPT EVENT INTERAKSI -->
+    <script is:inline>
+      function initAppEvents() {
+        // 1. TOGGLE THEME MODE (Bisa diklik di Desktop maupun Mobile)
+        const themeBtns = document.querySelectorAll('[data-switch-theme]');
+        themeBtns.forEach((btn) => {
+          // Gunakan onclick langsung agar listener tidak tertumpuk
+          btn.onclick = (e) => {
+            e.preventDefault();
+            e.stopPropagation();
 
-    const applyTheme = () => {
-      const savedTheme = localStorage.getItem("appTheme");
+            const isDark = document.documentElement.classList.toggle('dark');
+            localStorage.setItem('appTheme', isDark ? 'dark' : 'light');
+          };
+        });
 
-      if (
-        savedTheme === "dark" ||
-        (!savedTheme &&
-          window.matchMedia("(prefers-color-scheme: dark)").matches)
-      ) {
-        document.documentElement.classList.add("dark");
-      } else {
-        document.documentElement.classList.remove("dark");
+        // 2. HAMBURGER MENU (Hanya berlaku untuk layar Mobile jika elemen tersedia)
+        const toggleMenu = document.querySelector('[data-toggle-nav]');
+        const navbar = document.querySelector('[data-navbar]');
+        const overlayNav = document.querySelector('[data-nav-overlay]');
+
+        if (toggleMenu && navbar && overlayNav) {
+          const closeMenu = () => {
+            toggleMenu.setAttribute('data-open-nav', 'false');
+            overlayNav.setAttribute('data-is-visible', 'false');
+            document.body.classList.remove('!overflow-y-hidden');
+            // Hanya reset height jika dalam kondisi mobile (kurang dari lg / 1024px)
+            if (window.innerWidth < 1024) {
+              navbar.style.height = '0px';
+            }
+          };
+
+          toggleMenu.onclick = (e) => {
+            e.preventDefault();
+            const isOpen = toggleMenu.getAttribute('data-open-nav') === 'true';
+
+            if (!isOpen) {
+              toggleMenu.setAttribute('data-open-nav', 'true');
+              overlayNav.setAttribute('data-is-visible', 'true');
+              document.body.classList.add('!overflow-y-hidden');
+              navbar.style.height = `${navbar.scrollHeight}px`;
+            } else {
+              closeMenu();
+            }
+          };
+
+          overlayNav.onclick = closeMenu;
+        }
       }
-    };
 
-    applyTheme();
-
-    if (switchTheme) {
-      switchTheme.addEventListener("click", (e) => {
-        e.preventDefault();
-
-        const doc = document.documentElement;
-        const isDark = doc.classList.contains("dark");
-
-        if (isDark) {
-          doc.classList.remove("dark");
-          localStorage.setItem("appTheme", "light");
-        } else {
-          doc.classList.add("dark");
-          localStorage.setItem("appTheme", "dark");
-        }
-      });
-    }
-  </script>
-
-  <script>
-    const toggleMenu = document.querySelector(
-      "[data-toggle-nav]"
-    ) as HTMLButtonElement | null;
-
-    const navbar = document.querySelector(
-      "[data-navbar]"
-    ) as HTMLDivElement | null;
-
-    const overlayNav = document.querySelector(
-      "[data-nav-overlay]"
-    ) as HTMLDivElement | null;
-
-    const closeMenu = () => {
-      if (!toggleMenu || !navbar || !overlayNav) return;
-
-      toggleMenu.setAttribute("data-open-nav", "false");
-      overlayNav.setAttribute("data-is-visible", "false");
-      document.body.classList.remove("!overflow-y-hidden");
-      navbar.style.height = "0px";
-    };
-
-    if (toggleMenu && navbar && overlayNav) {
-      toggleMenu.addEventListener("click", (e) => {
-        e.preventDefault();
-
-        const isOpen =
-          toggleMenu.getAttribute("data-open-nav") === "true";
-
-        if (!isOpen) {
-          toggleMenu.setAttribute("data-open-nav", "true");
-          overlayNav.setAttribute("data-is-visible", "true");
-          document.body.classList.add("!overflow-y-hidden");
-          navbar.style.height = `${navbar.scrollHeight}px`;
-        } else {
-          closeMenu();
-        }
-      });
-
-      navbar.addEventListener("click", (e) => {
-        const target = e.target as HTMLElement;
-
-        // Dropdown mobile ditangani oleh NavItem.astro.
-        if (target.closest("[data-dropdown-toggle]")) return;
-
-        // Jangan tutup menu jika bukan link navigasi.
-        if (!target.closest("a[href]")) return;
-
-        closeMenu();
-      });
-
-      overlayNav.addEventListener("click", closeMenu);
-    }
-  </script>
+      // Jalankan fungsi saat pertama dimuat dan saat halaman berpindah
+      initAppEvents();
+      document.addEventListener('astro:page-load', initAppEvents);
+    </script>
+  </body>
 </html>
-
-<style is:global>
-  :root {
-    --color-bg: 255 255 255;
-    --color-border: 255 255 255;
-    --color-box: 255 255 255;
-    --box-border: 229 231 235;
-    --box-sd: 226 232 240 / 0.5;
-
-    --heading-1: 23 37 84;
-    --heading-2: 31 41 55;
-    --heading-3: 55 65 81;
-  }
-
-  .dark {
-    --color-bg: 3 7 18;
-    --color-border: 31 41 55;
-    --color-box: 17 24 39;
-    --box-border: 55 65 81;
-    --box-sd: transparent;
-
-    --heading-1: 255 255 255;
-    --heading-2: 243 244 246;
-    --heading-3: 209 213 219;
-  }
-
-  html {
-    scroll-behavior: smooth;
-  }
-
-  body {
-    font-family: "Raleway", sans-serif;
-  }
-
-  [data-toggle-nav][data-open-nav="true"] #line1 {
-    transform: translateY(0.375rem) rotate(40deg);
-  }
-
-  [data-toggle-nav][data-open-nav="true"] #line2 {
-    transform: scaleX(0);
-    opacity: 0;
-  }
-
-  [data-toggle-nav][data-open-nav="true"] #line3 {
-    transform: translateY(-0.375rem) rotate(-40deg);
-  }
-
-  [data-nav-overlay][data-is-visible="true"] {
-    visibility: visible;
-    display: flex;
-  }
-</style>
