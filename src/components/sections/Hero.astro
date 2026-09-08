@@ -4,7 +4,7 @@ import Container from "../shared/Container.astro";
 import Paragraph from "../shared/Paragraph.astro";
 import ByNumber from "./ByNumber.astro";
 
-const targetPhoneNumber = "628998922883";
+const targetPhoneNumber = "62895617626750";
 ---
 
 <section class="relative pt-32 lg:pt-36">
@@ -26,11 +26,8 @@ const targetPhoneNumber = "628998922883";
       <div class="mt-10 w-full flex max-w-md mx-auto lg:mx-0">
         <div class="flex sm:flex-row flex-col gap-5 w-full">
           
-          <!-- Direct Action ke WhatsApp API -->
           <form 
-            action={`https://wa.me/${targetPhoneNumber}`} 
-            method="GET" 
-            target="_blank" 
+            id="hero-wa-form"
             class="py-1 pl-6 w-full pr-1 flex gap-3 items-center text-heading-3 shadow-lg shadow-box-shadow border border-box-border bg-box-bg rounded-full ease-linear focus-within:bg-body focus-within:border-primary"
           >
             <!-- Logo WhatsApp -->
@@ -39,18 +36,17 @@ const targetPhoneNumber = "628998922883";
                 <path d="M13.601 2.326A7.85 7.85 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.9 7.9 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.9 7.9 0 0 0 13.6 2.326zM7.994 14.521a6.57 6.57 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.56 6.56 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592m3.615-4.934c-.197-.099-1.17-.578-1.353-.646-.182-.065-.315-.099-.445.099-.133.197-.513.646-.627.775-.114.133-.232.148-.43.05-.197-.1-.836-.308-1.592-.985-.59-.525-.985-1.175-1.103-1.372-.114-.198-.011-.304.088-.403.087-.088.197-.232.296-.346.1-.114.133-.198.198-.33.065-.134.034-.248-.015-.347-.05-.099-.445-1.076-.612-1.47-.16-.389-.323-.335-.445-.34-.114-.007-.247-.007-.38-.007a.73.73 0 0 0-.529.247c-.182.198-.691.677-.691 1.654s.71 1.916.81 2.049c.098.133 1.394 2.132 3.383 2.992.47.205.84.326 1.129.418.475.152.904.129 1.246.08.38-.058 1.17-.478 1.338-.94.165-.463.165-.858.115-.94-.051-.083-.182-.133-.38-.232"/>
               </svg>
             </span>
-
-            <!-- URL WhatsApp -->
+          
+            <!-- Input Teks Pengunjung -->
             <input 
               type="text" 
-              name="text" 
-              placeholder="cvmitrasupplyspace" 
-              class="w-full py-3 outline-none bg-transparent"
+              id="user-message" 
+              placeholder="Ketik kebutuhan Anda..." 
+              class="w-full py-3 outline-none bg-transparent text-sm"
               required
             />
-
-            <!-- Menggunakan button submit murni -->
-            <button type="submit" class="min-w-max text-white bg-primary hover:bg-primary/90 px-6 py-3 rounded-full font-medium transition-colors">
+          
+            <Button variant={"primary"} className={"min-w-max text-white"} type="submit">
               <span class="hidden sm:flex relative z-[5]">
                 Mulai Hubungi Kami
               </span>
@@ -59,7 +55,7 @@ const targetPhoneNumber = "628998922883";
                   <path stroke-linecap="round" stroke-linejoin="round" d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5" />
                 </svg>
               </span>
-            </button>
+            </Button>
           </form>
 
         </div>
@@ -74,26 +70,23 @@ const targetPhoneNumber = "628998922883";
   <ByNumber/>
 </section>
 
-<!-- Script penanganan redirect ke WA saat tombol diklik -->
-<script>
-    function setupWaForm() {
-      const form = document.getElementById('hero-wa-form') as HTMLFormElement;
-      const inputMsg = document.getElementById('user-message') as HTMLInputElement;
-      const targetPhoneNumber = "6281234567890"; // Ganti nomor Anda
-  
-      if (form) {
-        form.addEventListener('submit', (e) => {
-          e.preventDefault();
-          const textVal = inputMsg ? inputMsg.value.trim() : '';
-          const message = `Halo admin saya mau konsul: ${textVal}`;
-          
-          // Membuka WhatsApp di tab baru
-          window.open(`https://wa.me/${targetPhoneNumber}?text=${encodeURIComponent(message)}`, '_blank');
-        });
-      }
+<!-- Script penanganan WhatsApp -->
+<script is:inline define:vars={{ targetPhoneNumber }}>
+  function setupWaForm() {
+    const form = document.getElementById('hero-wa-form');
+    const inputMsg = document.getElementById('user-message');
+
+    if (form) {
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const textVal = inputMsg ? inputMsg.value.trim() : '';
+        const message = `Halo Admin CV Mitra Supply Space, saya ingin berkonsultasi mengenai: ${textVal}`;
+        
+        window.open(`https://wa.me/${targetPhoneNumber}?text=${encodeURIComponent(message)}`, '_blank');
+      });
     }
-  
-    // Jalankan saat pertama kali dimuat & saat navigasi Astro
-    setupWaForm();
-    document.addEventListener('astro:page-load', setupWaForm);
-  </script>
+  }
+
+  setupWaForm();
+  document.addEventListener('astro:page-load', setupWaForm);
+</script>
