@@ -13,92 +13,110 @@ export interface Props {
 const { href, text, dropdown } = Astro.props;
 ---
 
-<div class="relative group">
-  {dropdown ? (
-    <>
-      <button
-        type="button"
-        data-dropdown-toggle
-        class="flex items-center justify-between gap-2 w-full text-left"
-      >
-        <span>{text}</span>
-
-        <svg
-          data-dropdown-icon
-          xmlns="http://www.w3.org/2000/svg"
-          class="w-4 h-4 transition-transform duration-300 lg:group-hover:rotate-180"
-          viewBox="0 0 20 20"
-          fill="currentColor"
+<div class="relative group w-full lg:w-auto">
+  {
+    dropdown ? (
+      <>
+        <button
+          type="button"
+          data-dropdown-toggle
+          class="flex items-center justify-between gap-2 w-full text-left py-2 px-1 text-heading-1 hover:text-primary transition-colors font-medium"
         >
-          <path
-            fill-rule="evenodd"
-            d="M5.23 7.21a.75.75 0 011.06.02L10 11.293l3.71-4.06a.75.75 0 111.08 1.04l-4.25 4.65a.75.75 0 01-1.08 0l-4.25-4.65a.75.75 0 01.02-1.06z"
-            clip-rule="evenodd"
-          />
-        </svg>
-      </button>
+          <span>{text}</span>
 
-      <div
-        data-dropdown-panel
-        class="hidden lg:block
-               lg:absolute lg:left-0 lg:top-full lg:pt-3
-               lg:opacity-0 lg:invisible lg:translate-y-2
-               lg:group-hover:opacity-100
-               lg:group-hover:visible
-               lg:group-hover:translate-y-0
-               transition-all duration-300 z-50"
-      >
+          <svg
+            data-dropdown-icon
+            xmlns="http://www.w3.org/2000/svg"
+            class="w-4 h-4 transition-transform duration-300 lg:group-hover:rotate-180 text-heading-2"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M5.23 7.21a.75.75 0 011.06.02L10 11.293l3.71-4.06a.75.75 0 111.08 1.04l-4.25 4.65a.75.75 0 01-1.08 0l-4.25-4.65a.75.75 0 01.02-1.06z"
+              clip-rule="evenodd"
+            />
+          </svg>
+        </button>
+
         <div
-          class="w-full pl-4 lg:pl-0 lg:w-56 rounded-xl
-                 bg-transparent
-                 lg:bg-white lg:dark:bg-gray-900
-                 lg:shadow-xl
-                 lg:border lg:border-gray-100 lg:dark:border-gray-700
-                 py-2"
+          data-dropdown-panel
+          class="hidden lg:block
+                 lg:absolute lg:left-0 lg:top-full lg:pt-2
+                 lg:opacity-0 lg:invisible lg:translate-y-2
+                 lg:group-hover:opacity-100
+                 lg:group-hover:visible
+                 lg:group-hover:translate-y-0
+                 transition-all duration-300 z-50 w-full lg:w-auto"
         >
-          {dropdown.map((item) => (
-            <a
-              href={item.href}
-              class="block px-4 py-2 text-sm font-medium
-                     text-gray-800 dark:text-gray-200
-                     hover:text-primary
-                     hover:bg-gray-50 dark:hover:bg-gray-800
-                     transition-colors"
-            >
-              {item.text}
-            </a>
-          ))}
+          <div
+            class="w-full pl-4 lg:pl-0 lg:w-56 rounded-xl
+                   bg-transparent lg:bg-box-bg
+                   lg:shadow-xl
+                   lg:border lg:border-box-border
+                   py-2 my-1 lg:my-0 flex flex-col gap-1"
+          >
+            {dropdown.map((item) => (
+              <a
+                href={item.href}
+                class="block px-4 py-2 text-sm font-medium
+                       text-heading-2
+                       hover:text-primary
+                       hover:bg-box-border/30 rounded-lg
+                       transition-colors"
+              >
+                {item.text}
+              </a>
+            ))}
+          </div>
         </div>
-      </div>
-    </>
-  ) : (
-    <a href={href} class="block">
-      {text}
-    </a>
-  )}
+      </>
+    ) : (
+      <a 
+        href={href} 
+        class="block py-2 px-1 text-heading-1 hover:text-primary transition-colors font-medium"
+      >
+        {text}
+      </a>
+    )
+  }
 </div>
 
-<script>
-  document.querySelectorAll("[data-dropdown-toggle]").forEach((button) => {
-    button.addEventListener("click", (e) => {
-      e.preventDefault();
-      e.stopPropagation();
+<!-- Script Dropdown yang Aman untuk Astro Router -->
+<script is:inline>
+  function setupDropdowns() {
+    const buttons = document.querySelectorAll("[data-dropdown-toggle]");
 
-      const parent = button.closest(".group");
-      const panel = parent?.querySelector("[data-dropdown-panel]") as HTMLElement | null;
-      const icon = parent?.querySelector("[data-dropdown-icon]") as SVGElement | null;
+    buttons.forEach((button) => {
+      // Hapus listener lama jika ada agar tidak double-trigger
+      const newButton = button.cloneNode(true);
+      button.parentNode?.replaceChild(newButton, button);
 
-      if (!panel) return;
+      newButton.addEventListener("click", (e) => {
+        e.preventDefault();
+        e.stopPropagation();
 
-      const isOpen = !panel.classList.contains("hidden");
+        const parent = newButton.closest(".group");
+        const panel = parent?.querySelector("[data-dropdown-panel]");
+        const icon = parent?.querySelector("[data-dropdown-icon]");
 
-      if (isOpen) {
-        panel.classList.add("hidden");
-        icon?.classList.remove("rotate-180");
-      } else {
-        panel.classList.remove("hidden");
-        icon?.classList.add("rotate-180");
-      }
+        if (!panel) return;
+
+        // Toggle kelas 'hidden'
+        const isHidden = panel.classList.contains("hidden");
+
+        if (isHidden) {
+          panel.classList.remove("hidden");
+          icon?.classList.add("rotate-180");
+        } else {
+          panel.classList.add("hidden");
+          icon?.classList.remove("rotate-180");
+        }
+      });
     });
-  });
+  }
+
+  // Jalankan saat halaman siap
+  setupDropdowns();
+  document.addEventListener("astro:page-load", setupDropdowns);
 </script>
