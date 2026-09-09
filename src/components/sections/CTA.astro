@@ -2,56 +2,96 @@
 import Button from "../shared/Button.astro";
 import Container from "../shared/Container.astro";
 import Paragraph from "../shared/Paragraph.astro";
+
+const targetPhoneNumber = "628998922883";
+const defaultMessage = "Halo Admin CV Mitra Supply Space, saya ingin berkonsultasi";
 ---
 
-<section  id="cta" class="pb-20">
+<section id="cta" class="pb-20">
   <Container>
     <div
       class="w-full relative py-8 md:py-10 px-6 md:px-8 rounded-2xl bg-gradient-to-tr from-gray-100 to-gray-200 dark:from-gray-900 dark:to-transparent"
     >
       <div class="absolute right-0 top-0 h-full w-full flex justify-end">
         <div class="w-28 h-28 overflow-auto flex rounded-xl relative blur-2xl">
-            <span
-              class="absolute w-16 h-16 -top-1 -right-1 bg-green-500 rounded-md rotate-45"
-            ></span>
-            <span
-              class="absolute w-16 h-16 -bottom-1 -right-1 bg-[#FCDC58] rounded-md rotate-45"
-            ></span>
-            <span
-              class="absolute w-16 h-16 -bottom-1 -left-1 bg-primary rounded-md rotate-45"
-            ></span>
-          </div>
+          <span
+            class="absolute w-16 h-16 -top-1 -right-1 bg-green-500 rounded-md rotate-45"
+          ></span>
+          <span
+            class="absolute w-16 h-16 -bottom-1 -right-1 bg-[#FCDC58] rounded-md rotate-45"
+          ></span>
+          <span
+            class="absolute w-16 h-16 -bottom-1 -left-1 bg-primary rounded-md rotate-45"
+          ></span>
+        </div>
       </div>
 
       <div class="absolute left-0 bottom-0 h-full w-full flex items-end">
         <div class="w-28 h-28 overflow-auto flex rounded-xl relative blur-2xl">
-            <span
-              class="absolute w-16 h-16 -top-1 -right-1 bg-green-500 rounded-md rotate-45"
-            ></span>
-            <span
-              class="absolute w-16 h-16 -bottom-1 -right-1 bg-[#FCDC58] rounded-md rotate-45"
-            ></span>
-            <span
-              class="absolute w-16 h-16 -bottom-1 -left-1 bg-primary rounded-md rotate-45"
-            ></span>
-          </div>
+          <span
+            class="absolute w-16 h-16 -top-1 -right-1 bg-green-500 rounded-md rotate-45"
+          ></span>
+          <span
+            class="absolute w-16 h-16 -bottom-1 -right-1 bg-[#FCDC58] rounded-md rotate-45"
+          ></span>
+          <span
+            class="absolute w-16 h-16 -bottom-1 -left-1 bg-primary rounded-md rotate-45"
+          ></span>
+        </div>
       </div>
+      
       <div class="mx-auto text-center max-w-xl md:max-w-2xl relative">
         <h1
-          class="text-3xl/tight sm:text-4xl/tight md:text-5xl/tight
-          font-bold text-heading-1"
+          class="text-3xl/tight sm:text-4xl/tight md:text-5xl/tight font-bold text-heading-1"
         >
           Wujudkan <span class="text-transparent bg-clip-text bg-gradient-to-br from-indigo-600 from-20% via-primary via-30% to-green-600">Kebutuhan Bisnis dan Sehari-hari</span> Anda Bersama Kami
         </h1>
         <Paragraph className={"pt-10"}>
           Dari perdagangan eceran hingga jasa properti, tim kami siap membantu Anda dengan layanan yang profesional dan terpercaya.
         </Paragraph>
-        <div class="mx-auto max-w-md sm:max-w-xl pt-10">
-          <Button variant={"primary"}>
-            <span class="text-white relative z-[5]">Hubungi Kami</span>
-          </Button>
+        
+        <div class="mx-auto flex justify-center max-w-md sm:max-w-xl pt-10">
+          <!-- Direct Link WhatsApp -->
+          <a
+            id="cta-wa-btn"
+            href={`https://wa.me/${targetPhoneNumber}?text=${encodeURIComponent(defaultMessage)}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex"
+          >
+            <Button variant={"primary"} className={"min-w-max text-white"}>
+              <span class="hidden sm:flex relative z-[5]">
+                Hubungi Kami
+              </span>
+              <span class="flex sm:hidden relative z-[5]">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5" />
+                </svg>
+              </span>
+            </Button>
+          </a>
         </div>
       </div>
     </div>
   </Container>
 </section>
+
+<!-- Script penanganan WhatsApp -->
+<script is:inline define:vars={{ targetPhoneNumber, defaultMessage }}>
+  function setupWaCta() {
+    const waBtn = document.getElementById('cta-wa-btn');
+    if (!waBtn) return;
+
+    waBtn.addEventListener('click', (e) => {
+      const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+      if (isMobile) {
+        e.preventDefault();
+        const text = encodeURIComponent(defaultMessage);
+        window.location.href = `whatsapp://send?phone=${targetPhoneNumber}&text=${text}`;
+      }
+    });
+  }
+
+  setupWaCta();
+  document.addEventListener('astro:page-load', setupWaCta);
+</script>
